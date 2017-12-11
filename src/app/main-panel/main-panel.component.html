@@ -1,0 +1,7 @@
+<app-select-list (emitValue)="pobierzPoOddziale($event)"></app-select-list>
+
+<div *ngIf="punkty && punkty.length > 0">
+  <app-multiselect *ngFor="let klucz of klucze | keys" [label]="klucz.value"
+                 [name]="klucz.key" [wartosci]="poKluczu(klucz.key)">
+  </app-multiselect>
+</div>
