@@ -1,4 +1,0 @@
-<label for="oddzialy">Oddziały</label>
-<select (change)="changedValue($event)" name="oddzialy" id="oddzialy" [(ngModel)]="selectedValue">
-  <option *ngFor="let oddzial of oddzialy" [ngValue]=oddzial.symbol>{{oddzial.opis}}</option>
-</select>

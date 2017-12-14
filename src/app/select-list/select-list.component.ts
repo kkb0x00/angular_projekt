@@ -4,7 +4,13 @@ import { Oddzial } from '../oddzial';
 
 @Component({
   selector: 'app-select-list',
-  templateUrl: './select-list.component.html',
+  template: `
+    <label for="oddzialy">Oddziały</label>
+    
+    <select [(ngModel)]="selectedValue" (ngModelChange)="changedValue($event)" name="oddzialy" id="oddzialy" >
+      <option *ngFor="let oddzial of oddzialy" [value]=oddzial.symbol>{{oddzial.opis}}</option>
+    </select>
+  `,
   styleUrls: ['./select-list.component.css']
 })
 export class SelectListComponent implements OnInit {

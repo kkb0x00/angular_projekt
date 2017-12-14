@@ -1,0 +1,8 @@
+.top-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.content-width {
+  flex-basis: calc(25% - 20px);
+}
