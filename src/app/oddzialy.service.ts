@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Oddzial } from './oddzial';
-import { ODDZIALY} from './mock-oddzialy';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable } from 'rxjs/Observable';
 
 
 @Injectable()
 export class OddzialyService {
-  private _adres = 'https://motlawa.cdg.net.pl/analizy/kontrgeo_data.php?mode=oddzialy';
+  private api = 'https://motlawa.cdg.net.pl/analizy/kontrgeo_data.php?mode=oddzialy';
 
-  constructor() { }
+  constructor(private _http: HttpClient) { }
 
-  getOddzialy(): Oddzial[] {
-    return ODDZIALY;
+  getOddzialy(): Observable<Oddzial[]> {
+    return this._http.get<Oddzial[]>(this.api)
+      .catch(this.handleError);
   }
 
+  private handleError(err: HttpErrorResponse) {
+    return Observable.throw(err.message);
+  }
 }

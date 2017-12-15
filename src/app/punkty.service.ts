@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Punkt } from './punkt';
-import { PUNKTY } from './mock-punkty';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/catch';

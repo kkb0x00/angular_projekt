@@ -16,12 +16,17 @@ import { Oddzial } from '../oddzial';
 export class SelectListComponent implements OnInit {
   oddzialy: Oddzial[];
   selectedValue: string;
+  errorMessage: string;
   @Output() emitValue: EventEmitter<string> = new EventEmitter<string>();
 
   constructor(private oddzialyService: OddzialyService) { }
 
   ngOnInit() {
-    this.oddzialy = this.oddzialyService.getOddzialy();
+    this.oddzialyService.getOddzialy()
+      .subscribe(oddzialy => {
+        this.oddzialy = oddzialy;
+      }, error => this.errorMessage = <any>error);
+
     this.selectedValue = this.oddzialy[0].symbol;
   }
 

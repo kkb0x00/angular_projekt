@@ -10,24 +10,35 @@ import { OddzialyService } from './oddzialy.service';
 import { PunktyService } from './punkty.service';
 import { KeysPipe } from './keys.pipe';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-
+import { HttpClientModule } from '@angular/common/http';
+import { MapaComponent } from './mapa/mapa.component';
+import { AgmCoreModule } from '@agm/core';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
+    MapaComponent,
     AppComponent,
     MainPanelComponent,
     LegendaComponent,
     MultiselectComponent,
     SelectListComponent,
-    KeysPipe
+    KeysPipe,
+    MapaComponent,
   ],
   imports: [
-    BrowserModule, FormsModule, HttpClientModule
+    CommonModule,
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyChj2cldufxZpvzGapwYOd_t9k_-qkcE_w'
+    }),
+
   ],
   providers: [
     OddzialyService,
-    PunktyService
+    PunktyService,
   ],
   bootstrap: [AppComponent]
 })

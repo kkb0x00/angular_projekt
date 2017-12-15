@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PunktyService } from '../punkty.service';
 import { Punkt } from '../punkt';
-import { OddzialyService } from '../oddzialy.service';
 import _ from 'lodash';
 
 @Component({
@@ -14,22 +13,24 @@ export class MainPanelComponent implements OnInit {
   filtry: Partial<Punkt>;
 
   punkty: Punkt[];
+  punktyPofiltrowane: Punkt[];
   errorMessage: string;
 
-  constructor(
-    private punktyService: PunktyService,
-    private oddzialyService: OddzialyService) {
-  }
+  centrumMapy;
+
+  constructor(private punktyService: PunktyService) {}
 
   ngOnInit() {
-    let pierwszyOddzial = this.oddzialyService.getOddzialy();
-    this.pobierzPoOddziale(pierwszyOddzial);
     this.klucze = {
       trasa: 'Trasa',
       klasa: 'Klasyfikacja',
       ocena: 'Ocena',
       rodzajkl: 'Rodzaj klienta',
       handlowiec: 'Handlowiec'
+    };
+
+    this.centrumMapy = {
+      lat: 53, lon: 20
     };
 
     this.filtry = this.ustawFiltry();
@@ -63,13 +64,27 @@ export class MainPanelComponent implements OnInit {
   filtruj(klucz, wartosci) {
     this.filtry[klucz] = wartosci;
 
-    let punktyPofiltrowane = this.punkty.filter(punkt =>
+    this.punktyPofiltrowane = this.punkty.filter(punkt =>
       Object.keys(this.filtry).every(key =>
         this.filtry[key].includes(punkt[key]) || this.filtry[key].length == 0
       )
     );
 
-    console.log(punktyPofiltrowane);
+    this.ustawCentrum(this.punktyPofiltrowane);
   }
 
+  ustawCentrum(punkty: Punkt[]) {
+    let lat: any = punkty
+      .map(punkt => Number(punkt.lat))
+      .reduce((a, b) => a + b) /punkty.length;
+
+    let lon:any = punkty
+      .map(punkt => Number(punkt.lon))
+      .reduce((a, b) => a + b) /punkty.length;
+
+    this.centrumMapy = {
+      lat: lat,
+      lon: lon
+    };
+  }
 }
