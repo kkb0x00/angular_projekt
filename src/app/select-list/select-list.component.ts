@@ -6,7 +6,7 @@ import { Oddzial } from '../oddzial';
   selector: 'app-select-list',
   template: `
     <label for="oddzialy">Oddziały</label>
-    
+
     <select [(ngModel)]="selectedValue" (ngModelChange)="changedValue($event)" name="oddzialy" id="oddzialy" >
       <option *ngFor="let oddzial of oddzialy" [value]=oddzial.symbol>{{oddzial.opis}}</option>
     </select>
@@ -25,9 +25,8 @@ export class SelectListComponent implements OnInit {
     this.oddzialyService.getOddzialy()
       .subscribe(oddzialy => {
         this.oddzialy = oddzialy;
+        this.selectedValue = oddzialy[0].symbol;
       }, error => this.errorMessage = <any>error);
-
-    this.selectedValue = this.oddzialy[0].symbol;
   }
 
   changedValue() {

@@ -17,7 +17,7 @@ export class MainPanelComponent implements OnInit {
   errorMessage: string;
 
   limitPrzekroczony: boolean;
-  centrumMapy;
+  centrumMapy: object;
 
   constructor(private punktyService: PunktyService) {}
 
@@ -31,7 +31,8 @@ export class MainPanelComponent implements OnInit {
     };
 
     this.centrumMapy = {
-      lat: 53, lon: 20
+      lat: 53,
+      lon: 21
     };
 
     this.filtry = this.ustawFiltry();
