@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MainPanelComponent } from './main-panel/main-panel.component';
-import { LegendaComponent } from './legenda/legenda.component';
 import { MultiselectComponent } from './multiselect/multiselect.component';
 import { SelectListComponent } from './select-list/select-list.component';
 import { OddzialyService } from './oddzialy.service';
@@ -14,17 +13,19 @@ import { HttpClientModule } from '@angular/common/http';
 import { MapaComponent } from './mapa/mapa.component';
 import { AgmCoreModule } from '@agm/core';
 import { CommonModule } from '@angular/common';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerComponent } from './color-picker/color-picker.component';
 
 @NgModule({
   declarations: [
     MapaComponent,
     AppComponent,
     MainPanelComponent,
-    LegendaComponent,
     MultiselectComponent,
     SelectListComponent,
     KeysPipe,
     MapaComponent,
+    ColorPickerComponent,
   ],
   imports: [
     CommonModule,
@@ -34,7 +35,7 @@ import { CommonModule } from '@angular/common';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyChj2cldufxZpvzGapwYOd_t9k_-qkcE_w'
     }),
-
+    ColorPickerModule
   ],
   providers: [
     OddzialyService,

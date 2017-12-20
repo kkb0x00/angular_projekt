@@ -15,4 +15,14 @@ agm-map {
   height: 300px;
 }
 
+.alert-limit {
+  color: red;
+  text-align: center;
+}
+
+.alert-limit p {
+  display: block;
+  margin: 0;
+  line-height: 20px;
+}
 

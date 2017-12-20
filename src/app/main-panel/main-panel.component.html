@@ -10,6 +10,10 @@
     </app-multiselect>
   </div>
 </section>
+<div *ngIf="limitPrzekroczony" class="alert-limit">
+  <p>Limit puntków został przekroczony.<p>
+  <p>Wyświetliłem 400 pierwszych punktów.</p>
+</div>
 <app-mapa [centrumMapyLat]="centrumMapy.lat"
           [centrumMapyLon]="centrumMapy.lon"
           [punktyPofiltrowane]="punktyPofiltrowane"></app-mapa>

@@ -8,7 +8,15 @@ import { Punkt } from '../punkt';
     <agm-map class="wymiary polozenie" [latitude]="centrumMapyLat" [longitude]="centrumMapyLon" [zoom]="8">
       <agm-marker *ngFor="let punkt of punktyPofiltrowane;" 
                   [latitude]="convertToNumber(punkt.lat)" 
-                  [longitude]="convertToNumber(punkt.lon)">
+                  [longitude]="convertToNumber(punkt.lon)"
+                  [openInfoWindow]="true">
+        <agm-info-window>
+          <p>Handlowiec: {{punkt.handlowiec}}</p>
+          <p>Klasa: {{punkt.klasa}}</p>
+          <p>Rodzaj klienta: {{punkt.rodzajkl}}</p>
+          <p>Ocena: {{punkt.ocena}}</p>
+          <p>Trasa: {{punkt.trasa}}</p>
+        </agm-info-window>
       </agm-marker>
     </agm-map>
   `,
@@ -21,8 +29,6 @@ export class MapaComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     console.log(this.punktyPofiltrowane);
-    console.log(this.centrumMapyLat);
-    console.log(this.centrumMapyLon);
   }
 
   convertToNumber(coord: string) {
@@ -30,6 +36,10 @@ export class MapaComponent implements OnChanges {
   }
 
   constructor() {}
+
+  toggleLabel(punkt: Punkt) {
+    console.log(punkt)
+  }
 
 }
 

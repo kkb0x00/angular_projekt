@@ -16,6 +16,7 @@ export class MainPanelComponent implements OnInit {
   punktyPofiltrowane: Punkt[];
   errorMessage: string;
 
+  limitPrzekroczony: boolean;
   centrumMapy;
 
   constructor(private punktyService: PunktyService) {}
@@ -58,6 +59,8 @@ export class MainPanelComponent implements OnInit {
     this.punktyService.getPunkty(oddzial)
       .subscribe(punkty => {
         this.punkty = punkty;
+        this.punktyPofiltrowane = this.zwrocLimit(this.punkty);
+        this.ustawCentrum(this.punktyPofiltrowane);
       }, error => this.errorMessage = <any>error);
   }
 
@@ -70,15 +73,28 @@ export class MainPanelComponent implements OnInit {
       )
     );
 
+    this.punktyPofiltrowane = this.zwrocLimit(this.punktyPofiltrowane);
     this.ustawCentrum(this.punktyPofiltrowane);
   }
+
+  zwrocLimit(punkty: Punkt[]) {
+    if(punkty.length > 400) {
+      this.limitPrzekroczony = true;
+      return punkty.slice(0, 400);
+    }
+
+    this.limitPrzekroczony = false;
+    return punkty;
+  }
+
+
 
   ustawCentrum(punkty: Punkt[]) {
     let lat: any = punkty
       .map(punkt => Number(punkt.lat))
       .reduce((a, b) => a + b) /punkty.length;
 
-    let lon:any = punkty
+    let lon: any = punkty
       .map(punkt => Number(punkt.lon))
       .reduce((a, b) => a + b) /punkty.length;
 
