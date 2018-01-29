@@ -1,13 +1,31 @@
 .flex-column {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
 }
 
-.flex-row {
-  display: flex;
-  flex-direction: row;
+.szerokosc_multiselect {
+  width: 150px;
 }
 
-.content-width {
-  flex-basis: calc(25% - 20px);
+.icon-size {
+  height: 24px;
+  width: 24px;
+}
+
+mat-icon {
+  text-decoration: none;
+  font-size: 20px;
+}
+
+.ustawiony {
+  color: red;
+}
+
+.nieUstawiony {
+  color: blue;
+}
+
+.do_prawej {
+  float: right;
 }

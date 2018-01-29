@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -13,8 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MapaComponent } from './mapa/mapa.component';
 import { AgmCoreModule } from '@agm/core';
 import { CommonModule } from '@angular/common';
-import { ColorPickerModule } from 'ngx-color-picker';
-import { ColorPickerComponent } from './color-picker/color-picker.component';
+import { MatIconRegistry, MatIconModule } from '@angular/material';
+import { LegendaComponent } from './legenda/legenda.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { ColorPickerComponent } from './color-picker/color-picker.component';
     SelectListComponent,
     KeysPipe,
     MapaComponent,
-    ColorPickerComponent,
+    LegendaComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +35,7 @@ import { ColorPickerComponent } from './color-picker/color-picker.component';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyChj2cldufxZpvzGapwYOd_t9k_-qkcE_w'
     }),
-    ColorPickerModule
+    MatIconModule,
   ],
   providers: [
     OddzialyService,
@@ -43,4 +43,8 @@ import { ColorPickerComponent } from './color-picker/color-picker.component';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
+    matIconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('./assets/mdi.svg'));
+  }
+}

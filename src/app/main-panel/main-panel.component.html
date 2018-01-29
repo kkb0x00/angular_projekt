@@ -1,12 +1,14 @@
 <section class="inline-elements">
   <app-select-list (emitValue)="pobierzPoOddziale($event)"></app-select-list>
 
-  <div class="horizontal-space" *ngIf="punkty && punkty.length > 0">
+  <div class="horizontal-space flex-row" *ngIf="punkty && punkty.length > 0">
     <app-multiselect *ngFor="let klucz of klucze | keys"
                      [label]="klucz.value"
-                     [name]="klucz.key"
+                     [klucz]="klucz.key"
                      [wartosci]="poKluczu(klucz.key)"
-                     (emitValues)="filtruj(klucz.key, $event)">
+                     (emitValues)="filtruj(klucz.key, $event)"
+                     (emitujKolor)="ustawFiltracje(klucz.key); elementyFiltracji = poKluczu(klucz.key)"
+                     [czyjestUstawiony]="klucz.key === filtracjaKoloru">
     </app-multiselect>
   </div>
 </section>
@@ -16,4 +18,9 @@
 </div>
 <app-mapa [centrumMapyLat]="centrumMapy.lat"
           [centrumMapyLon]="centrumMapy.lon"
-          [punktyPofiltrowane]="punktyPofiltrowane"></app-mapa>
+          [punktyPofiltrowane]="punktyPofiltrowane"
+          [filtracjaKoloru]="filtracjaKoloru"
+          [elementyFiltracji]="elementyFiltracji"
+          (emitujMapeKolorow)="ustawSlownik($event)">
+</app-mapa>
+<app-legenda *ngIf="filtracjaKoloru" [mapaKolorow]="mapaKolorow"></app-legenda>

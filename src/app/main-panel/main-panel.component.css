@@ -6,9 +6,7 @@
 }
 
 .inline-elements {
-  display: flex;
-  margin: 50px 50px 20px 40px;
-  padding: 20px;
+  margin-bottom: 50px;
 }
 
 agm-map {
@@ -24,5 +22,22 @@ agm-map {
   display: block;
   margin: 0;
   line-height: 20px;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding:5px;
+}
+
+.flex-row > app-multiselect:nth-child(-n+2) {
+  flex-basis: 50%;
+}
+
+
+.flex-row > app-multiselect:nth-child(n+3) {
+  flex-basis: 33%;
 }
 

@@ -3,32 +3,36 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 @Component({
   selector: 'app-multiselect',
   template: `
-    <div class="flex-column content-width" *ngIf="wartosci.length > 0">
-      <label [for]=name>{{label}}</label>
-      
-      <div class="flex-row">
-        <select multiple [(ngModel)]=selectedValues (ngModelChange)="fun($event)" [name]=name [id]=name >
-            <option *ngFor="let wartosc of wartosci; let i = index" [value]=wartosc 
-                    (mouseenter)="widoczny[i] = true" (mouseleave)="widoczny[i] = false">{{wartosc}}</option>
-        </select>
-        <div class="flex-column">
-          <ng-container *ngFor="let wartosc of wartosci; let i = index;">
-            <app-color-picker [style.visibility]="widoczny[i]? 'visible':'hidden'"></app-color-picker>
-          </ng-container>
-        </div>
-      </div>
-    </div>
-  `,
+<div class="flex-column content-width" *ngIf="wartosci.length > 0">
+  <div class="flex-row szerokosc_multiselect">
+    <label [for]=klucz>{{label}}</label>
+    <a [ngClass] = "czyjestUstawiony? 'ustawiony': 'nieustawiony'"
+       class="do_prawej" href="javascript:void(0)" title='Pokoloruj' (click)="koloruj()">
+      <mat-icon svgIcon="pencil"></mat-icon>
+    </a>
+  </div>
+
+  <div class="flex-row">
+    <select multiple class="szerokosc_multiselect" [(ngModel)]=wybraneWartosci
+            (ngModelChange)="wyslijWartosci($event)" [name]=klucz [id]=klucz >
+        <option *ngFor="let wartosc of wartosci;" [value]=wartosc>{{wartosc}}</option>
+    </select>
+  </div>
+</div>
+`,
   styleUrls: ['./multiselect.component.css']
 })
 export class MultiselectComponent implements OnInit {
+  @Input() czyjestUstawiony: boolean;
+
   @Input() label: string;
   @Input() wartosci: string[];
-  @Input() name: string;
+  @Input() klucz: string;
 
   @Output() emitValues: EventEmitter<string[]> = new EventEmitter();
+  @Output() emitujKolor: EventEmitter<string> = new EventEmitter();
 
-  selectedValues: string[];
+  wybraneWartosci: string[];
   widoczny: boolean[];
 
   constructor() { }
@@ -37,7 +41,11 @@ export class MultiselectComponent implements OnInit {
     this.widoczny = Array(this.wartosci.length).fill(false);
   }
 
-  fun() {
-    this.emitValues.emit(this.selectedValues);
+  wyslijWartosci() {
+    this.emitValues.emit(this.wybraneWartosci);
+  }
+
+  koloruj() {
+    this.emitujKolor.emit(this.klucz);
   }
 }

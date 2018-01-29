@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PunktyService } from '../punkty.service';
 import { Punkt } from '../punkt';
 import _ from 'lodash';
@@ -14,6 +14,11 @@ export class MainPanelComponent implements OnInit {
 
   punkty: Punkt[];
   punktyPofiltrowane: Punkt[];
+
+  filtracjaKoloru: string;
+  elementyFiltracji;
+  mapaKolorow;
+
   errorMessage: string;
 
   limitPrzekroczony: boolean;
@@ -29,6 +34,7 @@ export class MainPanelComponent implements OnInit {
       rodzajkl: 'Rodzaj klienta',
       handlowiec: 'Handlowiec'
     };
+    this.mapaKolorow = [];
 
     this.centrumMapy = {
       lat: 53,
@@ -39,17 +45,21 @@ export class MainPanelComponent implements OnInit {
   }
 
   private ustawFiltry() {
-    let filtry = {};
+    const filtry = {};
 
-    let keys = _.keys(this.klucze);
+    const keys = _.keys(this.klucze);
     _.each(keys, (key) => {
       filtry[key] = [];
     });
 
-    return filtry
+    return filtry;
   }
 
   poKluczu(klucz) {
+    if (!klucz) {
+      return;
+    }
+
     return this.punkty
       .map(wartosc => wartosc[klucz])
       .filter((x, i, a) => x && a.indexOf(x) === i)
@@ -70,7 +80,7 @@ export class MainPanelComponent implements OnInit {
 
     this.punktyPofiltrowane = this.punkty.filter(punkt =>
       Object.keys(this.filtry).every(key =>
-        this.filtry[key].includes(punkt[key]) || this.filtry[key].length == 0
+        this.filtry[key].includes(punkt[key]) || this.filtry[key].length === 0
       )
     );
 
@@ -79,7 +89,7 @@ export class MainPanelComponent implements OnInit {
   }
 
   zwrocLimit(punkty: Punkt[]) {
-    if(punkty.length > 400) {
+    if (punkty.length > 400) {
       this.limitPrzekroczony = true;
       return punkty.slice(0, 400);
     }
@@ -88,20 +98,41 @@ export class MainPanelComponent implements OnInit {
     return punkty;
   }
 
-
-
   ustawCentrum(punkty: Punkt[]) {
+    if (!punkty.length) {
+      return;
+    }
+
     let lat: any = punkty
       .map(punkt => Number(punkt.lat))
-      .reduce((a, b) => a + b) /punkty.length;
+      .reduce((a, b) => a + b) / punkty.length;
 
     let lon: any = punkty
       .map(punkt => Number(punkt.lon))
-      .reduce((a, b) => a + b) /punkty.length;
+      .reduce((a, b) => a + b) / punkty.length;
 
     this.centrumMapy = {
       lat: lat,
       lon: lon
     };
   }
+
+  ustawFiltracje(nowaFiltracja: string) {
+    if (nowaFiltracja === this.filtracjaKoloru) {
+      this.filtracjaKoloru = null;
+      return;
+    }
+
+    this.filtracjaKoloru = nowaFiltracja;
+    this.mapaKolorow.length = 0;
+  }
+
+  ustawSlownik(wartosci) {
+    for (const elementSlownika in wartosci) {
+      if(this.punktyPofiltrowane.some((punkt) => Object.values(punkt).indexOf(elementSlownika) > -1 )) {
+        this.mapaKolorow.push([elementSlownika, wartosci[elementSlownika]]);
+      }
+    }
+  }
+
 }
